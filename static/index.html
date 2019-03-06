@@ -304,6 +304,7 @@
           world = data;
           drawNextFrame();
         };
+        // console.log("CALLBACK IN UPDATE:", callback)
         sendJSONXMLHTTPRequest(url, object, callback);
         drawFrame();
       }
