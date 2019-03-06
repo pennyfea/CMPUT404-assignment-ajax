@@ -22,7 +22,7 @@
 
 
 import flask
-from flask import Flask, request
+from flask import Flask, request, redirect, jsonify
 import json
 app = Flask(__name__)
 app.debug = True
@@ -39,7 +39,9 @@ class World:
         
     def update(self, entity, key, value):
         entry = self.space.get(entity,dict())
+        print("This is an entry: ", entry)
         entry[key] = value
+        print("This is an entry[key]: ", entry[key])
         self.space[entity] = entry
 
     def set(self, entity, data):
@@ -55,7 +57,7 @@ class World:
         return self.space
 
 # you can test your webservice from the commandline
-# curl -v   -H "Content-Type: application/json" -X PUT http://127.0.0.1:5000/entity/X -d '{"x":1,"y":1}' 
+# curl -v -H "Content-Type: application/json" -X PUT http://127.0.0.1:5000/entity/X -d '{"x":1,"y":1}' 
 
 myWorld = World()          
 
@@ -69,32 +71,36 @@ def flask_post_json():
     elif (request.data != None and request.data.decode("utf8") != u''):
         return json.loads(request.data.decode("utf8"))
     else:
-        return json.loads(request.form.keys()[0])
+        return json.oads(request.form.keys()[0])
 
 @app.route("/")
 def hello():
     '''Return something coherent here.. perhaps redirect to /static/index.html '''
-    return None
+    return redirect('/static/index.html')
 
 @app.route("/entity/<entity>", methods=['POST','PUT'])
 def update(entity):
     '''update the entities via this interface'''
-    return None
+    for key, value in flask_post_json().items():
+        myWorld.update(entity, key, value)
+    # print(myWorld.get(entity))
+    return jsonify(myWorld.get(entity))
 
 @app.route("/world", methods=['POST','GET'])    
 def world():
     '''you should probably return the world here'''
-    return None
+    return jsonify(myWorld.world())
 
 @app.route("/entity/<entity>")    
 def get_entity(entity):
     '''This is the GET version of the entity interface, return a representation of the entity'''
-    return None
+    return jsonify(myWorld.get(entity))
 
 @app.route("/clear", methods=['POST','GET'])
 def clear():
     '''Clear the world out!'''
-    return None
+    myWorld.clear()
+    return jsonify(myWorld.world())
 
 if __name__ == "__main__":
     app.run()
