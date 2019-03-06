@@ -157,20 +157,22 @@
 
       function addEntity(entity, data) {
         world[entity] = data;
-        drawNextFrame(); // (but should we?)
+        // drawNextFrame(); // (but should we?)
         // console.log("ENTITY:", entity);
         // console.log("OBJECT:", world[entity]);
         // console.log("DATA:", data);
         //XXX: Send a XHTML Request that updates the entity you just  modified!
         var url = "/entity/" + entity;
         var object = world[entity];
-        var callback = drawNextFrame;
+        // var callback = drawNextFrame;
 
-        console.log("NEW ENTITY:", url);
-        console.log("OBJECT:", object);
-        console.log("CALLBACK:", callback);
+        // console.log("NEW ENTITY:", url);
+        // console.log("OBJECT:", object);
+        // console.log("CALLBACK:", callback);
 
-        sendJSONXMLHTTPRequest(url, object, callback);
+        sendJSONXMLHTTPRequest(url, object, function() {
+          drawNextFrame();
+        });
       }
 
       var counter = 0;
@@ -280,15 +282,18 @@
       // Add the application specific mouse listeners!
       //XXX: TODO Make these prettier!
       mouse.mousedowners.push(function(x, y, clicked, e) {
-        addEntityWithoutName({ x: x, y: y, colour: randomColor(), radius: 15 });
+        // addEntityWithoutName({ x: x, y: y, colour: randomColor(), radius: 15 });
+        addEntityWithoutName({ x: x, y: y, radius: 15 });
       });
 
       mouse.mouseuppers.push(function(x, y, clicked, e) {
-        addEntityWithoutName({ x: x, y: y, colour: randomColor(), radius: 10 });
+        // addEntityWithoutName({ x: x, y: y, colour: randomColor(), radius: 10 });
+        addEntityWithoutName({ x: x, y: y, radius: 10 });
       });
 
       mouse.mousedraggers.push(function(x, y, clicked, e) {
-        addEntityWithoutName({ x: x, y: y, colour: randomColor(), radius: 25 });
+        // addEntityWithoutName({ x: x, y: y, colour: randomColor(), radius: 25 });
+        addEntityWithoutName({ x: x, y: y, radius: 25 });
       });
 
       function randomColor() {
@@ -300,12 +305,15 @@
         //XXX: TODO Get the world from the webservice using a XMLHTTPRequest
         var url = "/world";
         var object = null;
-        callback = function(data) {
+        // callback = function(data) {
+        //   world = data;
+        //   drawNextFrame();
+        // };
+        // console.log("CALLBACK IN UPDATE:", callback)
+        sendJSONXMLHTTPRequest(url, object, function(data) {
           world = data;
           drawNextFrame();
-        };
-        // console.log("CALLBACK IN UPDATE:", callback)
-        sendJSONXMLHTTPRequest(url, object, callback);
+        });
         drawFrame();
       }
 

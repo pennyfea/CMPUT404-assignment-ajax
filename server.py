@@ -39,9 +39,9 @@ class World:
         
     def update(self, entity, key, value):
         entry = self.space.get(entity,dict())
-        print("This is an entry: ", entry)
+        # print("This is an entry: ", entry)
         entry[key] = value
-        print("This is an entry[key]: ", entry[key])
+        # print("This is an entry[key]: ", entry[key])
         self.space[entity] = entry
 
     def set(self, entity, data):
