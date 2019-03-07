@@ -171,7 +171,7 @@
         // console.log("CALLBACK:", callback);
 
         sendJSONXMLHTTPRequest(url, object, function() {
-          drawNextFrame();
+          // drawNextFrame();
         });
       }
 
@@ -282,18 +282,18 @@
       // Add the application specific mouse listeners!
       //XXX: TODO Make these prettier!
       mouse.mousedowners.push(function(x, y, clicked, e) {
-        // addEntityWithoutName({ x: x, y: y, colour: randomColor(), radius: 15 });
-        addEntityWithoutName({ x: x, y: y, radius: 15 });
+        addEntityWithoutName({ x: x, y: y, colour: randomColor(), radius: 15 });
+        // addEntityWithoutName({ x: x, y: y, radius: 15 });
       });
 
       mouse.mouseuppers.push(function(x, y, clicked, e) {
-        // addEntityWithoutName({ x: x, y: y, colour: randomColor(), radius: 10 });
-        addEntityWithoutName({ x: x, y: y, radius: 10 });
+        addEntityWithoutName({ x: x, y: y, colour: randomColor(), radius: 10 });
+        // addEntityWithoutName({ x: x, y: y, radius: 10 });
       });
 
       mouse.mousedraggers.push(function(x, y, clicked, e) {
-        // addEntityWithoutName({ x: x, y: y, colour: randomColor(), radius: 25 });
-        addEntityWithoutName({ x: x, y: y, radius: 25 });
+        addEntityWithoutName({ x: x, y: y, colour: randomColor(), radius: 25 });
+        // addEntityWithoutName({ x: x, y: y, radius: 25 });
       });
 
       function randomColor() {
